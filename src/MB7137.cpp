@@ -1,25 +1,25 @@
 /*
-   Implementation of MaxBotix MB1242 sonar driver
+   Implementation of MaxBotix MB7137 sonar driver
 
    Copyright (C) 2016 Simon D. Levy and Matt Lubas
 
-   This file is part of MB1242_Arduino.
+   This file is part of MB7137_Arduino.
 
-   MB1242_Arduino is free software: you can redistribute it and/or modify
+   MB7137_Arduino is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
    (at your option) any later version.
 
-   MB1242_Arduino is distributed in the hope that it will be useful,
+   MB7137_Arduino is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
    You should have received a copy of the GNU General Public License
-   along with MB1242_Arduino.  If not, see <http://www.gnu.org/licenses/>.
+   along with MB7137_Arduino.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "MB1242.h"
+#include "MB7137.h"
 
 #include <stdint.h>
 #include <Arduino.h>
@@ -47,7 +47,7 @@ static bool check_and_update_timed_task(unsigned int * usec, uint32_t period)
     return result;
 }
 
-bool MB1242::attempt_write(void)
+bool MB7137::attempt_write(void)
 {
     Wire.beginTransmission(this->addr);
     Wire.write(0x51);
@@ -55,7 +55,7 @@ bool MB1242::attempt_write(void)
 }
 
 
-void MB1242::begin(unsigned char address)
+void MB7137::begin(unsigned char address)
 {
     this->addr = address;
     this->state = 0;
@@ -63,7 +63,7 @@ void MB1242::begin(unsigned char address)
     this->time = 0;
 }
 
-void MB1242::changeAddress(unsigned char oldaddr, unsigned char newaddr)
+void MB7137::changeAddress(unsigned char oldaddr, unsigned char newaddr)
 {
     Wire.beginTransmission(oldaddr);
     Wire.write(0xAA);
@@ -73,7 +73,7 @@ void MB1242::changeAddress(unsigned char oldaddr, unsigned char newaddr)
 }
 
 
-int MB1242::getDistance(void)
+int MB7137::getDistance(void)
 {
     if (check_and_update_timed_task(&this->time, CYCLE_PERIOD_USEC)) {
 
